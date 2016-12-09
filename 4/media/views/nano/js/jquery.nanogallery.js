@@ -3922,6 +3922,10 @@ nanoGALLERY v5.9.1 release notes.
       var source = data.feed.entry;
       var sortOrder=G.O.albumSorting;
       if (kind =='image'){
+		  
+			if (G.O.ozmaxres>0)source=source.slice(0,G.O.ozmaxres);
+		  
+		  
         sortOrder=G.O.photoSorting;
       }
 
@@ -3932,6 +3936,30 @@ nanoGALLERY v5.9.1 release notes.
         case 'reversed':
           source = source.reverse();
           break;
+		case 'fileAsc':
+          source.sort(function (a, b) {
+            // var x =  kind == 'image' ? a.media$group.media$description.$t.toUpperCase() : a.media$group.media$title.$t.toUpperCase();
+            // var y =  kind == 'image' ? b.media$group.media$description.$t.toUpperCase() : b.media$group.media$title.$t.toUpperCase();
+            var x='', y='';
+            if( kind == 'image' ) {
+			  x = a.title.$t;
+			  y = b.title.$t;
+            }
+            return( (x < y) ? -1 : ((x > y) ? 1 : 0) );
+          });
+          break;		
+		case 'fileDesc':
+          source.sort(function (a, b) {
+            // var x =  kind == 'image' ? a.media$group.media$description.$t.toUpperCase() : a.media$group.media$title.$t.toUpperCase();
+            // var y =  kind == 'image' ? b.media$group.media$description.$t.toUpperCase() : b.media$group.media$title.$t.toUpperCase();
+            var x='', y='';
+            if( kind == 'image' ) {
+			  x = a.title.$t;
+			  y = b.title.$t;
+            }
+            return( (x > y) ? -1 : ((x < y) ? 1 : 0) );
+          });
+          break;		
         case 'titleAsc':
           source.sort(function (a, b) {
             // var x =  kind == 'image' ? a.media$group.media$description.$t.toUpperCase() : a.media$group.media$title.$t.toUpperCase();
@@ -3946,6 +3974,13 @@ nanoGALLERY v5.9.1 release notes.
                 x = a.media$group.media$description.$t.toUpperCase();
                 y = b.media$group.media$description.$t.toUpperCase();
               }
+			  if (x==''){
+				  x = '§§§§§§§§§§§§§'+ a.title.$t;
+			  }
+			  if (y==''){
+				  y = '§§§§§§§§§§§§§'+ b.title.$t;
+			  }
+			  
             }
             else {
               x = a.media$group.media$title.$t.toUpperCase();
@@ -3968,6 +4003,15 @@ nanoGALLERY v5.9.1 release notes.
                 x = a.media$group.media$description.$t.toUpperCase();
                 y = b.media$group.media$description.$t.toUpperCase();
               }
+			  
+			  if (x==''){
+				  x = '             '+ a.title.$t;
+			  }
+			  if (y==''){
+				  y = '             '+ b.title.$t;
+			  }
+			  
+			  
             }
             else {
               x = a.media$group.media$title.$t.toUpperCase();
@@ -4055,7 +4099,7 @@ nanoGALLERY v5.9.1 release notes.
           newItem.imageNumber=nb;
           if( kind == 'album' ) {
             newItem.author=data.author[0].name.$t;
-            newItem.contentLength=data.gphoto$numphotos.$t;
+            newItem.contentLength=G.O.ozmaxres>0?Math.min(G.O.ozmaxres,data.gphoto$numphotos.$t):data.gphoto$numphotos.$t;
           }
 		if( kind == 'image' ) {
           newItem.infobox={};
