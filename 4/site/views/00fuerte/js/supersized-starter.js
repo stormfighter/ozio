@@ -25,6 +25,9 @@ jQuery(document).ready(function ($)
 	function load_google_json(start_slide){
 		ss.pwi(
 			{
+				picasaUrl: <?php echo json_encode(JURI::base().'index.php?option=com_oziogallery3&view=picasa&format=raw&ozio-menu-id='.JFactory::getApplication()->input->get('id')); ?>,
+				
+				
 				mode: 'album_data',
 				username: '<?php echo $this->Params->get("userid", ""); ?>',
 				album: '<?php echo ($this->Params->get("albumvisibility", "public") == "public") ? $this->Params->get("gallery_id", "") : $this->Params->get("limitedalbum"); ?>',
@@ -53,7 +56,12 @@ jQuery(document).ready(function ($)
 			//if (i==0){alert(JSON.stringify(result.feed.entry[i]));}
 			// Todo: di default prende il /d nell'URL che serve per il download
 			// Removes the file.ext part of the URL
-			var seed = result.feed.entry[i].content.src.substring(0, result.feed.entry[i].content.src.lastIndexOf("/"));
+			
+			//var seed = result.feed.entry[i].content.src.substring(0, result.feed.entry[i].content.src.lastIndexOf("/"));
+			//seed = seed.substring(0, seed.lastIndexOf("/")) + "/";
+			
+			var oz_gi_thumb_url = result.feed.entry[i].media$group.media$thumbnail[0].url;
+			var seed = oz_gi_thumb_url.substring(0, oz_gi_thumb_url.lastIndexOf("/"));
 			seed = seed.substring(0, seed.lastIndexOf("/")) + "/";
 
 			var width = result.feed.entry[i].gphoto$width.$t;
@@ -106,6 +114,18 @@ jQuery(document).ready(function ($)
 			if (typeof result.feed.entry[i].title !== "undefined" && typeof result.feed.entry[i].title.$t !== "undefined"){
 				photo_data['title']=result.feed.entry[i].title.$t;
 			}
+			
+			photo_data.filename='-na-';
+			if (typeof result.feed.entry[i].title !== "undefined" && typeof result.feed.entry[i].title.$t !== "undefined"){
+				photo_data.filename=result.feed.entry[i].title.$t;
+			}
+
+			photo_data.photo_title = '';
+			if (typeof result.feed.entry[i].media$group !== "undefined"  && typeof result.feed.entry[i].media$group.media$description !== "undefined" && typeof result.feed.entry[i].media$group.media$description.$t !== "undefined"){
+				photo_data.photo_title = result.feed.entry[i].media$group.media$description.$t;
+			}
+			
+			
 			if (typeof result.feed.entry[i].gphoto$size !== "undefined" && typeof result.feed.entry[i].gphoto$size.$t !== "undefined"){
 				photo_data['size']=result.feed.entry[i].gphoto$size.$t;
 			}
@@ -223,17 +243,63 @@ jQuery(document).ready(function ($)
 		});
 */
 		if (result.feed.openSearch$startIndex.$t+result.feed.openSearch$itemsPerPage.$t>=result.feed.openSearch$totalResults.$t){
-			if (ozmaxres>0)slides=slides.slice(0,ozmaxres);
 			var photoSorting='<?php echo $this->Params->get("photoSorting", "normal"); ?>';
 			if (photoSorting=='random'){
 				slides=shuffle(slides);
 			}else if (photoSorting=='inverse'){
 				slides=slides.reverse();
+			}else if (photoSorting=='titleAsc'){
+				slides.sort(function (a, b) {
+					var x = a.photo_title.toUpperCase();
+					var y = b.photo_title.toUpperCase();
+					if (x==''){  x = '§§§§§§§§§§§§§'+ a.filename;  }
+					if (y==''){  y = '§§§§§§§§§§§§§'+ b.filename;  }
+					return( (x < y) ? -1 : ((x > y) ? 1 : 0) );
+				});
+			}else if (photoSorting=='titleDesc'){
+				slides.sort(function (a, b) {
+					var x = a.photo_title.toUpperCase();
+					var y = b.photo_title.toUpperCase();
+					if (x==''){  x = '             '+ a.filename;  }
+					if (y==''){  y = '             '+ b.filename;  }
+					return( (x > y) ? -1 : ((x < y) ? 1 : 0) );
+				});
+			}else if (photoSorting=='fileAsc'){
+				slides.sort(function (a, b) {
+					var x = a.filename;
+					var y = b.filename;
+					return( (x < y) ? -1 : ((x > y) ? 1 : 0) );
+				});
+			}else if (photoSorting=='fileDesc'){
+				slides.sort(function (a, b) {
+					var x = a.filename;
+					var y = b.filename;
+					return( (x > y) ? -1 : ((x < y) ? 1 : 0) );
+				});
+			}else if (photoSorting=='id'){
+				slides.sort(function (a, b) {
+					var x = a.photo_id;
+					var y = b.photo_id;
+					return( (x < y) ? -1 : ((x > y) ? 1 : 0) );
+				});
+			}else if (photoSorting=='idDesc'){
+				slides.sort(function (a, b) {
+					var x = a.photo_id;
+					var y = b.photo_id;
+					return( (x > y) ? -1 : ((x < y) ? 1 : 0) );
+				});
 			}
+			if (ozmaxres>0)slides=slides.slice(0,ozmaxres);
+			var oz_max_num_photo = parseInt('<?php echo $this->Params->get("oz_max_num_photo", 0); ?>');
+			if (oz_max_num_photo>0)slides=slides.slice(0,oz_max_num_photo);
+			
 	
 			jQuery(function ($)
 			{
 				$.supersized({
+					
+					picasaUrl:<?php echo json_encode(JURI::base().'index.php?option=com_oziogallery3&view=picasa&format=raw&ozio-menu-id='.JFactory::getApplication()->input->get('id')); ?>,
+					
 					// Functionality
 					slideshow: 1, // Slideshow on/off
 					autoplay: parseInt('<?php echo $this->Params->get("autoplay", 0); ?>'), // Slideshow starts playing automatically

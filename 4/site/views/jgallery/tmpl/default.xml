@@ -53,7 +53,19 @@
 				<option value="normal">COM_OZIOGALLERY3_PHOTOSORTING_NORMAL</option>
 				<option value="random">COM_OZIOGALLERY3_PHOTOSORTING_RANDOM</option>
 				<option value="inverse">COM_OZIOGALLERY3_PHOTOSORTING_INVERSE</option>
+				
+				<option value="titleAsc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_TITLEASC</option>
+				<option value="titleDesc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_TITLEDESC</option>
+				<option value="fileAsc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_FILEASC</option>
+				<option value="fileDesc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_FILEDESC</option>
+				<option value="id">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_ID_ASC</option>
+				<option value="idDesc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_ID_DESC</option>
+				
+				
 			</field>
+			
+			<field type="text" name="oz_max_num_photo" label="COM_OZIOGALLERY3_MAX_NUM_PHOTO_LBL" description="COM_OZIOGALLERY3_MAX_NUM_PHOTO_DSC" size="6" default="0"/>			
+			
 			
 			<field type="list" name="ozio_nano_albumSorting" label="COM_OZIOGALLERY3_OZIO_NANO_ALBUMSORTING_LBL" description="COM_OZIOGALLERY3_OZIO_NANO_ALBUMSORTING_DSC" default="standard">
 				<option value="standard">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_NORMAL</option>
@@ -62,6 +74,7 @@
 				<option value="titleAsc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_TITLEASC</option>
 				<option value="titleDesc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_TITLEDESC</option>
 				<option value="id">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_ID</option>
+				<option value="idDesc">COM_OZIOGALLERY3_OZIO_NANO_PHOTOSORTING_ID_DESC</option>
 			</field>
 			
 			
@@ -70,7 +83,7 @@
 				<option value="under">COM_OZIOGALLERY3_DESCRIPTION_POS_UNDER</option>
 			</field>
 
-			<field name="bottom_description" type="textarea" default="" label="COM_OZIOGALLERY3_BOTTOM_DESCRIPTION_LBL" description="COM_OZIOGALLERY3_BOTTOM_DESCRIPTION_DSC" rows="10" cols="5" filter="safehtml" />
+			<field name="bottom_description" type="textarea" default="" label="COM_OZIOGALLERY3_BOTTOM_DESCRIPTION_LBL" description="COM_OZIOGALLERY3_BOTTOM_DESCRIPTION_DSC" rows="10" cols="5" filter="raw" />
 			
 			<field type="list" name="albumvisibility" label="COM_OZIOGALLERY3_ALBUMVISIBILITY_LBL" description="COM_OZIOGALLERY3_ALBUMVISIBILITY_DSC" default="public">
 				<option value="public">COM_OZIOGALLERY3_VISIBILITY_PUBLIC</option>
@@ -250,6 +263,7 @@
 		  
 		</fieldset>			
 		<fieldset name="advanced">
+			<field name="api_key" type="text" label="COM_OZIOGALLERY3_MAP_API_KEY_LBL" description="COM_OZIOGALLERY3_MAP_API_KEY_DSC"/>
 			<field type="list" name="load_css_bootstrap" label="COM_OZIOGALLERY3_LOAD_CSS_BOOTSTRAP_LBL" description="COM_OZIOGALLERY3_LOAD_CSS_BOOTSTRAP_DSC" default="0">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
