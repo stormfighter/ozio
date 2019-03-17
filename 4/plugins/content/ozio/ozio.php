@@ -57,7 +57,9 @@ class plgContentOzio extends JPlugin
 		if( substr($galleriaozio,0 , 2) == "__") {
 			$gallery = explode("__", $galleriaozio);
 			$galleriaozio = $gallery[1];
-			$specialAlbum = $gallery[2];
+			unset($gallery[0]);
+			unset($gallery[1]);
+			$specialAlbum = implode("__", $gallery);
 		} else {
 			$specialAlbum = false;
 		}
