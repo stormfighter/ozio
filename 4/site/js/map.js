@@ -94,7 +94,7 @@ jQuery(document).ready(function ($)
 					album_local_url:'<?php echo $link; ?>',
 					icon:<?php echo json_encode($icon); ?>,
 					legend_icon:<?php echo json_encode($legend_icon); ?>,
-					g_flickrApiKey:"2f0e634b471fdb47446abcb9c5afebdc",
+					g_flickrApiKey:<?php echo json_encode($item->params->get("ozio_flickr_api_key", "")); ?>,
 					locationHash: <?php echo json_encode(intval($item->params->get("ozio_nano_locationHash", "1"))); ?>,
 					skin: <?php echo json_encode(strpos($item->link, "&view=jgallery") === false?'nano':'jgallery'); ?>,
 					kind: <?php echo json_encode($item->params->get("ozio_nano_kind", "picasa")); ?>,
@@ -308,9 +308,9 @@ jQuery(document).ready(function ($)
 	
 
         googlemap = new google.maps.Map(document.getElementById('oziomap'), {
-          zoom: <?php echo $this->Params->get("zoom", 0); ?>,
+          zoom: <?php echo intval($this->Params->get("zoom", 0)); ?>,
           center: center,
-          mapTypeId: google.maps.MapTypeId.<?php echo $this->Params->get("map_type", "ROADMAP"); ?>,
+          mapTypeId: google.maps.MapTypeId.<?php echo htmlspecialchars($this->Params->get("map_type", "ROADMAP")); ?>,
 		  scrollwheel: false
         });
         
@@ -324,7 +324,7 @@ jQuery(document).ready(function ($)
         
         
 		// InfoWindow creation
-		infowindow = new google.maps.InfoWindow({maxWidth: <?php echo $this->Params->get("infowindow_width", "200"); ?>});
+		infowindow = new google.maps.InfoWindow({maxWidth: <?php echo intval($this->Params->get("infowindow_width", "200")); ?>});
 
 <?php if ($this->Params->get("cluster", "1")) { ?>
         markerCluster = new MarkerClusterer(googlemap,[],{maxZoom: 15});

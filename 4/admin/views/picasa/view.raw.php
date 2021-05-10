@@ -164,10 +164,17 @@ class OzioViewPicasa extends JViewLegacy
 
 			$library_params['pageSize'] = 50;
 			if (!empty($input_params['pageToken'])){
+				
+				if (mb_substr($input_params['pageToken'],0,4)=='S---'){
+					$input_params['pageToken']=mb_substr($input_params['pageToken'],4);
+					$url = 'https://photoslibrary.googleapis.com/v1/sharedAlbums';
+				}
+				
 				$library_params['pageToken'] = $input_params['pageToken'];
 			}
 			$single_album = false;
 		}else{
+			
 			if (empty($input_params['photo_id']) || !preg_match('/^[a-zA-Z0-9\.\-@_]+$/',$input_params['photo_id'])){
 
 				$picasa_req_type = 'get_photos';
@@ -197,6 +204,7 @@ class OzioViewPicasa extends JViewLegacy
 			) 
 		);
 		
+		$albums_ids = array();
 		
 		for ($pagina=0;$pagina<10;$pagina++){
 			
@@ -271,15 +279,33 @@ class OzioViewPicasa extends JViewLegacy
 				die();
 			}
 			
+			
 			if ($picasa_req_type=='get_albums'){
+					
+				if (mb_strpos($url, 'sharedAlbums')!==FALSE){
+					$json_resp['albums'] = isset($json_resp['sharedAlbums'])?$json_resp['sharedAlbums']:array();
+				}
+				
+				if (isset($json_resp['albums']) && is_array($json_resp['albums'])){
+				}else{
+					$json_resp['albums'] = array();
+				}
 					
 				foreach ($json_resp['albums'] as $a){
 					$o = array();
 					
+					if (isset($albums_ids[$a['id']])){
+						continue;
+					}
+					$albums_ids[$a['id']] = true;
+					
+					if (!isset($a['mediaItemsCount'])){
+						$a['mediaItemsCount'] = 0;
+					}					
 					$o['gphoto$numphotos']['$t'] = $a['mediaItemsCount'];
-					$o['media$group']['media$title']['$t'] = $a['title'];
+					$o['media$group']['media$title']['$t'] = isset($a['title'])?$a['title']:'';
 					$o['media$group']['media$description']['$t'] = '';
-					$o['title']['$t'] = $a['title'];
+					$o['title']['$t'] = isset($a['title'])?$a['title']:'';
 					$o['summary']['$t'] = '';
 					$o['author']=array(array('name' =>array('$t'=>'')));
 					$o['id']['$t'] = 'https://picasaweb.google.com/data/entry/user/'.$input_params['user_id'].'/albumid/'.$a['id'];
@@ -339,22 +365,34 @@ class OzioViewPicasa extends JViewLegacy
 				unset($out['feed']['openSearch$nextPageToken']['$t']);
 				if (isset($json_resp['nextPageToken'])){
 					$out['feed']['openSearch$totalResults']['$t'] = $out['feed']['openSearch$totalResults']['$t'] + 50;
-					$out['feed']['openSearch$nextPageToken']['$t'] = $json_resp['nextPageToken'];
+					$out['feed']['openSearch$nextPageToken']['$t'] = mb_strpos($url, 'sharedAlbums')===FALSE?$json_resp['nextPageToken']:'S---'.$json_resp['nextPageToken'];
 				}
 				
 				
 				if (isset($json_resp['nextPageToken'])){
 					$library_params['pageToken'] = $json_resp['nextPageToken'];
 				}else{
-					break;
+					
+					if (mb_strpos($url, 'sharedAlbums')===FALSE){
+						//devo provare anche la chiamata a sharedAlbums
+						$pagina=0;//resetto la pagina.
+						$url = 'https://photoslibrary.googleapis.com/v1/sharedAlbums';
+						$library_body = array();
+						unset($library_params['pageToken']);
+						
+					}else{
+						break;
+					}
 				}
 			}else if ($picasa_req_type=='get_photos'){
 					
-				foreach ($json_resp['mediaItems'] as $a){
-					
-					$o = $this->media_item2entry($a,$picasa_params, $input_params);
-					
-					$out['feed']['entry'][] = $o;
+				if (!empty($json_resp['mediaItems'])){
+					foreach ($json_resp['mediaItems'] as $a){
+						
+						$o = $this->media_item2entry($a,$picasa_params, $input_params);
+						
+						$out['feed']['entry'][] = $o;
+					}
 				}
 				
 
@@ -507,7 +545,7 @@ class OzioViewPicasa extends JViewLegacy
 		)		
 		*/
 
-		return $json_resp['title'];
+		return isset($json_resp['title'])?$json_resp['title']:'';
 	}
 
 	
@@ -604,8 +642,8 @@ class OzioViewPicasa extends JViewLegacy
 			$a['filename'] = $a['description'];
 		}
 		
-		$o['title']['$t'] = $a['filename'];
-		$o['media$group']['media$title']['$t'] =$a['filename'];
+		$o['title']['$t'] = isset($a['filename'])?$a['filename']:'';
+		$o['media$group']['media$title']['$t'] =isset($a['filename'])?$a['filename']:'';
 
 		$o['summary']['$t'] = $a['description'];
 		$o['media$group']['media$description']['$t'] = $a['description'];

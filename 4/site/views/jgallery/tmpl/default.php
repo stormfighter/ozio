@@ -28,7 +28,7 @@ $GLOBALS["enable_jquery_ozio_plugin"]=true;
 
 <?php 
 
-$testo_sotto_mappa=trim($this->Params->get("bottom_description", ""));
+$testo_sotto_mappa=trim(strip_tags($this->Params->get("bottom_description", ""),'<a><b><blockquote><code><del><dd><dl><dt><em><h1><h2><h3><i><kbd><li><ol><p><pre><s><sup><sub><strong><strike><ul><br><hr>'));
 if (!empty($testo_sotto_mappa) && $this->Params->get("description_pos", "under")=='above') {  ?>
 	<div class="ozio_jgallery_bottom_description">
 	<?php echo $testo_sotto_mappa; ?>
@@ -36,7 +36,7 @@ if (!empty($testo_sotto_mappa) && $this->Params->get("description_pos", "under")
 <?php }?>
 
 
-<div id="jgallery" class="ozio-jgallery-container<?php echo $this->Params->get("pageclass_sfx", ""); ?>">
+<div id="jgallery" class="ozio-jgallery-container<?php echo $this->escape($this->Params->get("pageclass_sfx", "")); ?>">
 	<div class="ozio_jgallery_loading" style="width: 100%; overflow: hidden; position: relative; height: 5px;">
 	<noscript><?php echo "javascript required" ?></noscript>
 	</div>
@@ -45,7 +45,7 @@ if (!empty($testo_sotto_mappa) && $this->Params->get("description_pos", "under")
 
 <?php 
 
-$testo_sotto_mappa=trim($this->Params->get("bottom_description", ""));
+$testo_sotto_mappa=trim(strip_tags($this->Params->get("bottom_description", ""),'<a><b><blockquote><code><del><dd><dl><dt><em><h1><h2><h3><i><kbd><li><ol><p><pre><s><sup><sub><strong><strike><ul><br><hr>'));
 if (!empty($testo_sotto_mappa) && $this->Params->get("description_pos", "under")=='under') {  ?>
 	<div class="ozio_jgallery_bottom_description">
 	<?php echo $testo_sotto_mappa; ?>

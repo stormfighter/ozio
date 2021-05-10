@@ -7,7 +7,7 @@ $new_non_printable_separator="|!|";
 
 jQuery( document ).ready(function( $ ) {
 	if (typeof ozio_fullscreen != 'undefined'?ozio_fullscreen:0){
-		var closelink='<?php $closelink = trim( $this->Params->get("closelink","") ); if (empty($closelink)){$closelink=JURI::base();} echo $closelink; ?>';
+		var closelink=<?php $closelink = trim( $this->Params->get("closelink","") ); if (empty($closelink)){$closelink=JURI::base();} echo json_encode($closelink); ?>;
 		jQuery('a.close_fullscreen').attr('href',closelink);
 		jQuery('a.close_fullscreen').css('left','15px');
 		jQuery('a.close_fullscreen').css('right','auto');
@@ -17,6 +17,9 @@ jQuery( document ).ready(function( $ ) {
 	var infobox_bg_url = <?php echo json_encode($this->Params->get("infobox_bg_url", "https://lh4.googleusercontent.com/nr01-F6eM6Mb09CuDZBLvnxzpyRMpWQ0amrS593Rb7Q=w1200")); ?>;
 
 	$("#nanoGallery").nanoGallery({
+		
+		flickrApiKey: <?php echo json_encode($this->Params->get("ozio_flickr_api_key", "")); ?>,
+		
 		picasaUrl: <?php echo json_encode(JURI::base().'index.php?option=com_oziogallery3&view=picasa&format=raw&ozio-menu-id='.JFactory::getApplication()->input->get('id')); ?>,
 		
 		locationHash: <?php echo json_encode(intval($this->Params->get("ozio_nano_locationHash", "1"))); ?>,
