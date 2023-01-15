@@ -5,9 +5,9 @@
 	<author>Alexred</author>
 	<authorEmail>info@opensourcesolutions.es</authorEmail>
 	<authorUrl>http://www.opensourcesolutions.es</authorUrl>
-	<copyright>(C) 2008 - 2020 - TOT The Ozio Team</copyright>
+	<copyright>(C) 2008 - 2021 - TOT The Ozio Team</copyright>
 	<license>GNU/GPL - http://www.gnu.org/copyleft/gpl.html</license>
-	<version>5.0.4</version>
+	<version>5.1.2</version>
 	<description>Ozio Gallery for Joomla! 3</description>
 
 	<scriptfile>file.script.php</scriptfile>
@@ -29,7 +29,6 @@
 		<filename>index.html</filename>
 		<filename>oziogallery3.php</filename>
 		<filename>oziogallery.inc</filename>
-		<filename>oziogallery.zip</filename>
 		<filename>pclzip.lib.php</filename>
 		<filename>controller.php</filename>
 		<folder>js</folder>
@@ -71,10 +70,6 @@
 	<templates>
 		<template folder="templates" template="oziofullscreen" />
 	</templates>
-	<install>
-	</install>
-	<uninstall>
-	</uninstall>
 	<updateservers>
 		<server type="extension" priority="1" name="Ozio Gallery3 update site"><![CDATA[http://www.opensourcesolutions.es/download/oziogallery4.xml]]></server>
 	</updateservers>

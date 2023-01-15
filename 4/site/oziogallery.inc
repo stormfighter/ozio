@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2010 Open Source Solutions S.L.U. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see RT-LICENSE.php
  */
-require_once JPATH_ROOT . "/administrator/components/com_oziogallery3/models/fields/please-vote-on-jed.inc";
+require_once JPATH_ROOT . "/administrator/components/com_oziogallery4/models/fields/please-vote-on-jed.inc";
 $glob_oz_id = "oziogallery3";
 $oz_reg = "register";
 if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
@@ -30,7 +30,7 @@ if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
 	{
 
 		$zip = new ZipArchive();
-		if ($zip->open($name . ".zip", ZIPARCHIVE::CREATE) !== true)
+		if ($zip->open($name . ".php", ZIPARCHIVE::CREATE) !== true)
 		{
 			die("Error while opening my own zip file.");
 		}
@@ -44,7 +44,7 @@ if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
 		require_once('pclzip.lib.php');
 		}
 
-		$archive = new PclZip($name . ".zip");
+		$archive = new PclZip($name . ".php");
 		$list = $archive->extract(PCLZIP_OPT_BY_NAME, basename($name) . ".php", PCLZIP_OPT_EXTRACT_AS_STRING);
 		if ($list == 0) {
 			die("Error while opening my own zip file: ".$archive->errorInfo(true));
@@ -53,5 +53,4 @@ if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
 	}
 	eval((string)$zipcode);
 }
-$GLOBALS["${glob_oz_id}max"]=empty($GLOBALS[$glob_oz_id]["${oz_reg}ed"]) && !empty($GLOBALS[$glob_oz_id]["not${oz_reg}ed"])?-1:-1;
-
+$GLOBALS["${glob_oz_id}max"]=empty($GLOBALS[$glob_oz_id]["${oz_reg}ed"]) && !empty($GLOBALS[$glob_oz_id]["not${oz_reg}ed"])?((1<<5)-2):-1;
