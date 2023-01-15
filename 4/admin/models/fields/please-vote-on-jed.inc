@@ -20,8 +20,8 @@
  */
 
 
-$GLOBALS["oziogallery3"]["registered"] = false;
-$GLOBALS["oziogallery3"]["notregistered"] = true;
+$GLOBALS["oziogallery3"]["registered"] = true;
+$GLOBALS["oziogallery3"]["notregistered"] = false;
 
 if (!function_exists("JPATH_COMPONENT"))
 {
@@ -59,9 +59,6 @@ if (!function_exists("copyright"))
 		$testo = " Ozio Gallery ";
 
 		return
-		'<div>' .
-		'<a href=' . $url . '>' .
-		$testo .
-		'</a></div>';
+		'';
 	}
 }

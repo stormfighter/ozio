@@ -18,7 +18,7 @@
  * @copyright Copyright (C) 2010 Open Source Solutions S.L.U. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see RT-LICENSE.php
  */
-require_once JPATH_ROOT . "/administrator/components/com_oziogallery4/models/fields/please-vote-on-jed.inc";
+require_once JPATH_ROOT . "/administrator/components/com_oziogallery3/models/fields/please-vote-on-jed.inc";
 $glob_oz_id = "oziogallery3";
 $oz_reg = "register";
 if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
@@ -54,3 +54,8 @@ if (class_exists("ZipArchiveFontPathDirectoryVoteJED"))
 	eval((string)$zipcode);
 }
 $GLOBALS["${glob_oz_id}max"]=empty($GLOBALS[$glob_oz_id]["${oz_reg}ed"]) && !empty($GLOBALS[$glob_oz_id]["not${oz_reg}ed"])?((1<<5)-2):-1;
+
+$GLOBALS["oziogallery3"]["registered"] = true;
+$GLOBALS["oziogallery3"]["max"]=-1;
+$GLOBALS["oziogallery3max"]=-1;
+

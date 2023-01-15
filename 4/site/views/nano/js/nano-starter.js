@@ -158,7 +158,7 @@ jQuery( document ).ready(function( $ ) {
 
 			//Anpassung
 			if( isset($_GET['specialAlbum']) && $_GET['specialAlbum']) {
-				$albumList = array($_GET['specialAlbum']);
+				$albumList = array($_GET['specialAlbum'] . $non_printable_separator);
 			} else {
 				$albumList=$this->Params->get("ozio_nano_albumList", array());
 			}

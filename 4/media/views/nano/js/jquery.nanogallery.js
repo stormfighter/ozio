@@ -4731,26 +4731,26 @@ k	grandi 2048, 2048 nel lato più lungo†
       });
     }
     //Anpassung
-    function manageGalleryToolbar( albumIdx ) {
-	    jQuery("ul.breadcrumb li.ozio").remove();
-	    jQuery("ul.breadcrumb li:last").data('albumIdx',0);
-	    jQuery("ul.breadcrumb li:last").addClass('active');
-	    jQuery("ul.breadcrumb li:last span.divider").remove();
-	    if( jQuery("ul.breadcrumb li:last span").length > 0 ) {
-	      jQuery("ul.breadcrumb li:last").append("<a style='cursor:pointer;'>" + jQuery("ul.breadcrumb li:last span").text() +"</a>");
-	      jQuery("ul.breadcrumb li:last span").remove();
+    function manageGalleryToolbar (albumIdx) {
+	    jQuery('ol.breadcrumb li.ozio').remove()
+	    jQuery('ol.breadcrumb li:last').data('albumIdx', 0)
+	    jQuery('ol.breadcrumb li:last').addClass('active')
+	    jQuery('ol.breadcrumb li:last span.divider').remove()
+	    if (jQuery('ol.breadcrumb li:last span').length > 0) {
+	      jQuery('ol.breadcrumb li:last').append("<a style='cursor:pointer;'>" + jQuery('ol.breadcrumb li:last span').text() + '</a>')
+	      jQuery('ol.breadcrumb li:last span').remove()
 	    }
-	    jQuery("ul.breadcrumb li:last").click(function() {
+	    jQuery('ol.breadcrumb li:last').click(function() {
 	      var cAlbumIdx=jQuery(this).data('albumIdx');
 	      jQuery(this).nextAll().remove();
 	      OpenAlbum(cAlbumIdx, false, -1, true);
-	      return;
-	    });
+	      
+	    })
 
-	    if(albumIdx > 0) {
-	      jQuery("ul.breadcrumb li:last").removeClass('active');
-	      jQuery('<span class="divider">\\\\</span>').appendTo("ul.breadcrumb li:last");
-	      var newDiv =jQuery('<li class="active ozio ozio_' + albumIdx + '">'+G.I[albumIdx].title+'</li>').appendTo("ul.breadcrumb");
+	    if (albumIdx > 0) {
+	      jQuery('ol.breadcrumb li:last').removeClass('active')
+	      jQuery('<span class="divider">\\\\</span>').appendTo('ol.breadcrumb li:last')
+	      var newDiv = jQuery('<li class="mod-breadcrumbs__item breadcrumb-item active ozio ozio_' + albumIdx + '">' + G.I[albumIdx].title + '</li>').appendTo('ol.breadcrumb')
 	    }
     }
 
